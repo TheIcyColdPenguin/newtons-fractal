@@ -1,5 +1,5 @@
 use std::fmt;
-use std::ops::{Add, Mul};
+use std::ops::{Add, Div, Mul};
 
 use crate::types::Complex;
 
@@ -37,6 +37,18 @@ impl Mul<Complex> for Complex {
         Complex {
             real: (self.real * other.real) - (self.imag * other.imag),
             imag: self.real * other.imag + self.imag * other.real,
+        }
+    }
+}
+
+impl Div<Complex> for Complex {
+    type Output = Complex;
+
+    fn div(self, other: Complex) -> Complex {
+        let sum_square = other.real.powi(2) + other.imag.powi(2);
+        Complex {
+            real: (self.real * other.real + self.imag * other.imag) / sum_square,
+            imag: (self.imag * other.real - self.real * other.imag) / sum_square,
         }
     }
 }
