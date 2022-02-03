@@ -1,4 +1,5 @@
 mod complex;
+mod helpers;
 mod polynomial;
 mod types;
 
