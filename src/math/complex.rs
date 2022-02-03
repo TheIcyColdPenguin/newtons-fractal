@@ -1,7 +1,7 @@
 use std::fmt;
 use std::ops::{Add, Div, Mul};
 
-use crate::types::Complex;
+use crate::math::types::Complex;
 
 impl Complex {
     pub fn pow(self, n: i32) -> Complex {

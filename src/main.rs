@@ -1,6 +1,3 @@
-mod complex;
-mod helpers;
-mod polynomial;
-mod types;
+mod math;
 
 fn main() {}

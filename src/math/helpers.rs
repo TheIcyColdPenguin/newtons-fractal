@@ -1,4 +1,4 @@
-use crate::types::{Complex, Polynomial};
+use crate::math::types::{Complex, Polynomial};
 
 pub fn newton(z: Complex, poly: Polynomial, deriv: Polynomial, num_iterations: usize) -> Complex {
     let mut z = z;
@@ -13,7 +13,7 @@ pub fn newton(z: Complex, poly: Polynomial, deriv: Polynomial, num_iterations: u
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::types::Item;
+    use crate::math::types::Item;
 
     #[test]
     fn it_calculates_convergent_point() {

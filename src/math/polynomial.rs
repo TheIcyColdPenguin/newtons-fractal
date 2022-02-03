@@ -1,8 +1,8 @@
 use std::fmt;
 use std::ops::{Add, Neg};
 
-use crate::types::Complex;
-use crate::types::{Item, Polynomial};
+use crate::math::types::Complex;
+use crate::math::types::{Item, Polynomial};
 
 impl Polynomial {
     pub fn calc(&self, x: Complex) -> Complex {
