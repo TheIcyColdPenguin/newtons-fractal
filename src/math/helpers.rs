@@ -1,6 +1,6 @@
 use crate::math::types::{Complex, Polynomial};
 
-struct NewtonIterator<'a> {
+pub struct NewtonIterator<'a> {
     z: Complex,
     poly: &'a Polynomial,
     deriv: &'a Polynomial,
@@ -8,7 +8,7 @@ struct NewtonIterator<'a> {
     max_iterations: usize,
 }
 impl<'a> NewtonIterator<'a> {
-    fn new(
+    pub fn new(
         z: Complex,
         poly: &'a Polynomial,
         deriv: &'a Polynomial,
@@ -23,7 +23,7 @@ impl<'a> NewtonIterator<'a> {
         }
     }
 
-    fn next(&mut self) -> Option<Complex> {
+    pub fn next(&mut self) -> Option<Complex> {
         if self.n == 0 {
             self.n += 1;
             Some(self.z)
