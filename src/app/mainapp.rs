@@ -1,10 +1,12 @@
 use crate::app::types::{App, AppSettings, MathInnards};
-use crate::math::types::{Item, Polynomial};
+use crate::math::types::{Complex, Item, Polynomial};
 
 use piston_window::{Event, EventSettings, Events, RenderEvent};
 
 impl App {
     pub fn new(settings: AppSettings) -> App {
+        // hardcode the values for now
+
         let poly = Polynomial(vec![
             Item {
                 pow: 3,
@@ -18,10 +20,38 @@ impl App {
 
         let deriv = poly.derivative();
 
-        App {
+        let roots = vec![
+            (
+                Complex {
+                    real: 1.0,
+                    imag: 0.0,
+                },
+                [255, 0, 0],
+            ),
+            (
+                Complex {
+                    real: -0.5,
+                    imag: -0.86602540378,
+                },
+                [0, 255, 0],
+            ),
+            (
+                Complex {
+                    real: -0.5,
+                    imag: 0.86602540378,
+                },
+                [0, 0, 255],
+            ),
+        ];
+
+        let mut app = App {
             settings,
-            math: MathInnards { poly, deriv },
-        }
+            math: MathInnards { poly, deriv, roots },
+        };
+
+        app.settings.area = Some(app.calc_world_size());
+
+        app
     }
 
     fn render(&mut self, e: &Event) {
@@ -44,6 +74,7 @@ impl App {
 
     pub fn run(&mut self) {
         let mut events = Events::new(EventSettings::new());
+        self.draw();
 
         while let Some(event) = events.next(&mut self.settings.innards.window) {
             // render out the drawn canvas

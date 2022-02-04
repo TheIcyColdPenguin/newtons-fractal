@@ -20,6 +20,7 @@ impl AppSettings {
         AppSettings {
             resolution_scale: 30,
             zoom: 7,
+            area: None,
             innards: Innards {
                 window,
                 texture,

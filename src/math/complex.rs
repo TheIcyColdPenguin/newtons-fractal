@@ -18,6 +18,10 @@ impl Complex {
     pub fn dist_sq(self, other: Complex) -> f64 {
         (self.real - other.real).powi(2) + (self.imag - other.imag).powi(2)
     }
+
+    pub fn close_enough(self, other: Complex) -> bool {
+        (self.real - other.real).abs() < 1e-5 && (self.imag - other.imag).abs() < 1e-5
+    }
 }
 
 impl From<f64> for Complex {
