@@ -1,7 +1,10 @@
 use crate::app::types::{App, AppSettings, MathInnards};
 use crate::math::types::{Complex, Item, Polynomial};
 
-use piston_window::{Event, EventSettings, Events, RenderEvent};
+use piston_window::{
+    Button, ButtonEvent, Event, EventSettings, Events, MouseButton, MouseRelativeEvent,
+    MouseScrollEvent, PressEvent, ReleaseEvent, RenderEvent,
+};
 
 impl App {
     pub fn new(settings: AppSettings) -> App {
@@ -76,10 +79,49 @@ impl App {
         let mut events = Events::new(EventSettings::new());
         self.draw();
 
+        let mut should_update = false;
+
         while let Some(event) = events.next(&mut self.settings.innards.window) {
+            self.settings.modifiers.event(&event);
+
             // render out the drawn canvas
             if let Some(_) = event.render_args() {
                 self.render(&event);
+            }
+
+            if let Some(button) = event.press_args() {
+                self.manage_mouse_click(button);
+            };
+
+            if let Some(button) = event.release_args() {
+                if button == Button::Mouse(MouseButton::Left) {
+                    self.settings.is_panning = false;
+                }
+            };
+
+            // zoom on scroll
+            if let Some(scroll) = event.mouse_scroll_args() {
+                self.manage_scroll(scroll);
+                should_update = true;
+            }
+
+            // use inputs
+            if let Some(args) = event.button_args() {
+                let updated = self.manage_input(args);
+                if updated {
+                    should_update = true;
+                }
+            }
+            if let Some(args) = event.mouse_relative_args() {
+                let updated = self.manage_pan(args);
+                if updated {
+                    should_update = true;
+                }
+            }
+
+            if should_update {
+                self.draw();
+                should_update = false;
             }
         }
     }

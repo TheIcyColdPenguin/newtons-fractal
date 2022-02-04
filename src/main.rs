@@ -13,7 +13,7 @@ fn main() {
 
     let window: PistonWindow = WindowSettings::new("Newton's Fractal", [1000, 700])
         .exit_on_esc(true)
-        // .fullscreen(true)
+        .fullscreen(true)
         .vsync(true)
         .resizable(false)
         .graphics_api(opengl)

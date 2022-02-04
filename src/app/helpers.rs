@@ -1,4 +1,7 @@
-use crate::app::types::{Area, Point};
+use crate::app::{
+    constants::constants,
+    types::{Area, Point},
+};
 use crate::math::types::Complex;
 
 pub fn map_range(
@@ -23,4 +26,15 @@ pub fn screen_to_cart(
         real: map_range(x, 0.0, screen_width as f64, start.x, end.x),
         imag: map_range(y, 0.0, screen_height as f64, start.y, end.y),
     }
+}
+
+pub fn linear_to_log(val: f64) -> f64 {
+    map_range(
+        val,
+        100.0,
+        0.0,
+        constants::LN_1E_NEGATIVE_10,
+        constants::LN_2_3,
+    )
+    .exp()
 }

@@ -1,5 +1,5 @@
 use image::{ImageBuffer, Rgba};
-use piston_window::{G2dTexture, PistonWindow, TextureContext};
+use piston_window::{keyboard::ModifierKey, G2dTexture, PistonWindow, TextureContext};
 
 use crate::math::types::{Complex, Polynomial};
 
@@ -39,7 +39,9 @@ pub struct AppSettings {
     pub innards: Innards,
     pub zoom: i8,
     pub resolution_scale: u8,
+    pub is_panning: bool,
     pub area: Option<Area>,
+    pub modifiers: ModifierKey,
 }
 
 pub struct MathInnards {

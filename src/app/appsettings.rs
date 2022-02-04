@@ -2,7 +2,8 @@ use crate::app::types::{AppSettings, Innards};
 
 use image::ImageBuffer;
 use piston_window::{
-    G2dTexture, PistonWindow, Size, Texture, TextureContext, TextureSettings, Window,
+    keyboard::ModifierKey, G2dTexture, PistonWindow, Size, Texture, TextureContext,
+    TextureSettings, Window,
 };
 
 impl AppSettings {
@@ -18,9 +19,11 @@ impl AppSettings {
             Texture::from_image(&mut texture_context, &canvas, &TextureSettings::new()).unwrap();
 
         AppSettings {
-            resolution_scale: 30,
+            resolution_scale: 10,
             zoom: 7,
             area: None,
+            is_panning: false,
+            modifiers: ModifierKey::NO_MODIFIER,
             innards: Innards {
                 window,
                 texture,
