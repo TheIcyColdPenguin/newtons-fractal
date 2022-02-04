@@ -1,13 +1,41 @@
 use crate::math::types::{Complex, Polynomial};
 
-pub fn newton(z: Complex, poly: &Polynomial, deriv: &Polynomial, num_iterations: usize) -> Complex {
-    let mut z = z;
-
-    for _ in 0..num_iterations {
-        z = z + ((poly.calc(z) / deriv.calc(z)) * -1.0);
+struct NewtonIterator<'a> {
+    z: Complex,
+    poly: &'a Polynomial,
+    deriv: &'a Polynomial,
+    n: usize,
+    max_iterations: usize,
+}
+impl<'a> NewtonIterator<'a> {
+    fn new(
+        z: Complex,
+        poly: &'a Polynomial,
+        deriv: &'a Polynomial,
+        max_iterations: usize,
+    ) -> NewtonIterator<'a> {
+        NewtonIterator {
+            z,
+            poly,
+            deriv,
+            max_iterations,
+            n: 0,
+        }
     }
 
-    z
+    fn next(&mut self) -> Option<Complex> {
+        if self.n == 0 {
+            self.n += 1;
+            Some(self.z)
+        } else if self.n >= self.max_iterations {
+            None
+        } else {
+            self.n += 1;
+            self.z = self.z + ((self.poly.calc(self.z) / self.deriv.calc(self.z)) * -1.0);
+
+            Some(self.z)
+        }
+    }
 }
 
 #[cfg(test)]
@@ -30,33 +58,39 @@ mod tests {
 
         let deriv = poly.derivative();
 
-        assert_eq!(
-            newton(
-                Complex {
-                    real: 1.01,
-                    imag: 1.0,
-                },
-                &poly,
-                &deriv,
-                1000,
-            ),
-            1.0.into()
+        let mut newton1 = NewtonIterator::new(
+            Complex {
+                real: 1.01,
+                imag: 1.0,
+            },
+            &poly,
+            &deriv,
+            1000,
         );
 
-        assert_eq!(
-            newton(
-                Complex {
-                    real: -10.6,
-                    imag: -5.96,
-                },
-                &poly,
-                &deriv,
-                10000,
-            ),
+        let mut newton2 = NewtonIterator::new(
             Complex {
+                real: -10.6,
+                imag: -5.96,
+            },
+            &poly,
+            &deriv,
+            10000,
+        );
+
+        for _ in 0..999 {
+            newton1.next();
+            newton2.next();
+        }
+
+        assert_eq!(newton1.next(), Some(1.0.into()));
+
+        assert_eq!(
+            newton2.next(),
+            Some(Complex {
                 real: -0.5,
                 imag: -0.8660254037844386467637,
-            }
+            })
         );
     }
 }
