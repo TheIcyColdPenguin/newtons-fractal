@@ -5,11 +5,14 @@ use crate::math::types::Complex;
 
 impl Complex {
     pub fn pow(self, n: i32) -> Complex {
-        let mut res = self;
-        for _i in 1..n {
-            res = res * self;
-        }
-        res
+        let r = (self.real.powi(2) + self.imag.powi(2)).sqrt();
+        let theta = self.imag.atan2(self.real);
+        let mult = n as f64 * theta;
+
+        Complex {
+            real: mult.cos(),
+            imag: mult.sin(),
+        } * r.powi(n)
     }
 
     pub fn dist_sq(self, other: Complex) -> f64 {
