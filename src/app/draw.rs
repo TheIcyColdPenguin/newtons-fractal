@@ -16,9 +16,9 @@ impl App {
             for y in (0..(height - res_scale + 1)).step_by(res_scale as usize) {
                 let cart = screen_to_cart((x, y).into(), (width, height), &area);
                 let mut newton_iterator =
-                    NewtonIterator::new(cart, &self.math.poly, &self.math.deriv, 200);
+                    NewtonIterator::new(cart, &self.math.poly, &self.math.deriv, 100);
 
-                let mut col = [0, 0, 0];
+                let mut col = [255, 255, 255];
 
                 'outer: while let Some(z) = newton_iterator.next() {
                     for root in self.math.roots.iter() {
