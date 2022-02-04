@@ -11,6 +11,10 @@ impl Complex {
         }
         res
     }
+
+    pub fn dist_sq(self, other: Complex) -> f64 {
+        (self.real - other.real).powi(2) + (self.imag - other.imag).powi(2)
+    }
 }
 
 impl From<f64> for Complex {
@@ -127,6 +131,21 @@ mod tests {
                 real: 1.0,
                 imag: 0.0
             }
+        );
+    }
+
+    #[test]
+    fn it_dists_complexes() {
+        assert_eq!(
+            Complex {
+                real: 0.0,
+                imag: 1.0
+            }
+            .dist_sq(Complex {
+                real: -1.0,
+                imag: 0.0
+            }),
+            2.0
         );
     }
 
