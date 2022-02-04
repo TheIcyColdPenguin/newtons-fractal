@@ -76,7 +76,7 @@ impl PartialEq for Complex {
 
 impl fmt::Debug for Complex {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        if self.imag < f64::EPSILON {
+        if self.imag.abs() < f64::EPSILON {
             write!(f, "{}", self.real)
         } else if self.imag < 0.0 {
             write!(f, "{}{}i", self.real, self.imag)
